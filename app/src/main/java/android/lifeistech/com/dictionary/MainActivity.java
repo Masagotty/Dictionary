@@ -60,27 +60,27 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                String item = (String)adapter.getItem(position);
-                Toast.makeText(getApplicationContext(), item + "を削除しました", Toast.LENGTH_SHORT).show();
-                adapter.remove(item);
-
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getApplicationContext(), "すべて削除しました", Toast.LENGTH_SHORT).show();
-                adapter.clear();
-
-                return false;
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                String item = (String)adapter.getItem(position);
+//                Toast.makeText(getApplicationContext(), item + "を削除しました", Toast.LENGTH_SHORT).show();
+//                adapter.remove(item);
+//
+//            }
+//        });
+//
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Toast.makeText(getApplicationContext(), "すべて削除しました", Toast.LENGTH_SHORT).show();
+//                adapter.clear();
+//
+//                return false;
+//            }
+//        });
 
     }
 
@@ -113,6 +113,27 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "この単語は登録されていません", Toast.LENGTH_LONG).show();
         }
 
+
+    }
+
+
+    public void delete(View v) {
+        String deleteWord = searchWordEditText.getText().toString();
+
+        wordSet.addAll(pref.getStringSet("wordSet", wordSet));
+
+        for (String word : wordSet) {
+            hashMap.put(word, pref.getString(word, null));
+        }
+
+        if (hashMap.containsKey(deleteWord)) {
+            editor.remove(deleteWord);
+            Toast.makeText(this, deleteWord + "を削除しました", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "この単語は登録されていません", Toast.LENGTH_LONG).show();
+        }
+
+        listView.setAdapter(adapter);
 
     }
 }
